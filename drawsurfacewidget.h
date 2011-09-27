@@ -2,6 +2,7 @@
 #define DRAWSURFACEWIDGET_H
 
 #include <QGLWidget>
+#include <QMouseEvent>
 
 class DrawSurfaceWidget : public QGLWidget
 {
@@ -9,9 +10,16 @@ class DrawSurfaceWidget : public QGLWidget
 public:
     explicit DrawSurfaceWidget(QWidget *parent = 0);
 
-signals:
+protected:
+    /*OpenGL methods*/
+    void initializeGL();
+    void resizeGL(int width, int height);
+    void paintGL();
 
-public slots:
+    void mousePressEvent(QMouseEvent *event);
+
+protected:
+    std::vector< std::pair<double,double> > points;
 
 };
 

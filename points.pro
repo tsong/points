@@ -18,4 +18,4 @@ HEADERS  += mainwindow.h
 FORMS    +=
 
 OTHER_FILES += \
-    README.txt
+    README

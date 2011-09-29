@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 
 #include "vector.h"
+#include "mstalgorithm.h"
 
 using namespace std;
 
@@ -24,7 +25,8 @@ protected:
 
 protected:
     vector<Vector2f> vertices;
-    list<Vector2i> edges;
+    list<Edge> edges;
+    PointsAlgorithm *pointsAlgorithm;
 
 };
 

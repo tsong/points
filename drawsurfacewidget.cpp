@@ -5,8 +5,9 @@
 
 
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent), pointsAlgorithm(0)
 {
+    pointsAlgorithm = MSTAlgorithm::getInstance();
 }
 
 DrawSurfaceWidget::~DrawSurfaceWidget() {}
@@ -43,10 +44,10 @@ void DrawSurfaceWidget::paintGL() {
     }
 
     //draw edges
-    for (list<Vector2i>::iterator it = edges.begin(); it != edges.end(); it++) {
-        Vector2i e = *it;
-        Vector2f v1 = vertices[e[0]];
-        Vector2f v2 = vertices[e[1]];
+    for (list<Edge>::iterator it = edges.begin(); it != edges.end(); it++) {
+        Edge e = *it;
+        Vector2f v1 = *e.u;
+        Vector2f v2 = *e.v;
 
         glBegin(GL_LINES);
         glVertex2f(v1[0],v1[1]);
@@ -68,7 +69,8 @@ void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
     //qDebug() << v[0] << " " << v[1];
 
     vertices.push_back(Vector2f(x,y));
-    edges = mst(vertices);
+    if (pointsAlgorithm)
+        edges = pointsAlgorithm->getEdges(vertices);
 
     qDebug() << "# Edges: " << edges.size();
     repaint();

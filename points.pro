@@ -13,13 +13,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     drawsurfacewidget.cpp \
-    matrix.cpp
+    matrix.cpp \
+    mstalgorithm.cpp
 
 HEADERS  += mainwindow.h \
     drawsurfacewidget.h \
     matrix.h \
     vector.h \
-    glutils.h
+    glutils.h \
+    pointsalgorithm.h \
+    mstalgorithm.h
 
 FORMS    +=
 

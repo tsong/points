@@ -18,7 +18,8 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     drawsurfacewidget.h \
     matrix.h \
-    vector.h
+    vector.h \
+    glutils.h
 
 FORMS    +=
 

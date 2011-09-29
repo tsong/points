@@ -1,5 +1,7 @@
 #include <QDebug>
 #include "drawsurfacewidget.h"
+#include "glutils.h"
+
 
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -32,16 +34,13 @@ void DrawSurfaceWidget::paintGL() {
 
     glColor3f(0,0,0);
 
-    //draw points
-    glBegin(GL_POINTS);
+    //draw vertices
     {
         for (list<Vector2f>::iterator it = vertices.begin(); it != vertices.end(); it++) {
             Vector2f v = *it;
-            glVertex2f(v[0], v[1]);
+            glDrawCircle(v[0], v[1]);
         }
     }
-    glEnd();
-
 }
 
 

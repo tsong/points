@@ -7,7 +7,7 @@ class MSTAlgorithm : public PointsAlgorithm
 {
 public:
 
-    virtual list<Edge> getEdges(const vector<Vector2f> &vertices);
+    list<Edge> getEdges(const vector<Vector2f> &vertices);
     static MSTAlgorithm* getInstance();
 
 protected:

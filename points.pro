@@ -14,7 +14,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     drawsurfacewidget.cpp \
     matrix.cpp \
-    mstalgorithm.cpp
+    mstalgorithm.cpp \
+    convexhullalgorithm.cpp
 
 HEADERS  += mainwindow.h \
     drawsurfacewidget.h \
@@ -22,7 +23,8 @@ HEADERS  += mainwindow.h \
     vector.h \
     glutils.h \
     pointsalgorithm.h \
-    mstalgorithm.h
+    mstalgorithm.h \
+    convexhullalgorithm.h
 
 FORMS    +=
 

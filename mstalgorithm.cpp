@@ -15,6 +15,7 @@ MSTAlgorithm* MSTAlgorithm::getInstance() {
 list<Edge> MSTAlgorithm::getEdges(const vector<Vector2f> &vertices) {
     uint n = vertices.size();
     list<Edge> edges;
+    if (n <= 1) return edges;
 
     uint parent[n];
     for (uint i = 0; i < n; i++) parent[i] = 0;

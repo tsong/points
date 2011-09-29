@@ -14,7 +14,7 @@ public:
             this->data[i] = v.data[i];
     }
 
-    double magnitude() {
+    double magnitude() const {
         T sum = 0;
         for (uint i = 0; i < N; i++) {
             sum += data[i]*data[i];
@@ -23,7 +23,7 @@ public:
         return sqrt(sum);
     }
 
-    T dot(Vector<T,N> v) {
+    T dot(const Vector<T,N> &v) const {
         T result = 0;
         for (uint i = 0; i < N; i++) {
             result += data[i] * v.data[i];
@@ -32,13 +32,28 @@ public:
         return result;
     }
 
-    Vector<T,N> cross(Vector<T,N> v);
+    Vector<T,N> cross(const Vector<T,N> &v) const;
 
-    Vector<T,N> operator-(const Vector<T,N> &v) {
+    Vector<T,N> operator-(const Vector<T,N> &v) const {
         Vector<T,N> result;
         for (uint i = 0; i < N; i++)
             result.data[i] = data[i] - v.data[i];
         return result;
+    }
+
+    Vector<T,N>& operator=(const Vector<T,N> &v) {
+        if (this != &v) {
+            for (uint i = 0; i < N; i++)
+                data[i] = v.data[i];
+        }
+        return *this;
+    }
+
+    bool operator==(const Vector<T,N> &v) const {
+        for (uint i = 0; i < N; i++)
+            if (data[i] != v.data[i])
+                return false;
+        return true;
     }
 
     T& operator[](uint i) {

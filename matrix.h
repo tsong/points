@@ -4,8 +4,7 @@
 typedef unsigned int uint;
 
 template <typename T>
-class Matrix
-{
+class Matrix {
 public:
     Matrix();
 };

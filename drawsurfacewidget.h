@@ -8,11 +8,11 @@
 
 using namespace std;
 
-class DrawSurfaceWidget : public QGLWidget
-{
+class DrawSurfaceWidget : public QGLWidget {
     Q_OBJECT
 public:
-    explicit DrawSurfaceWidget(QWidget *parent = 0);
+    DrawSurfaceWidget(QWidget *parent = 0);
+    ~DrawSurfaceWidget();
 
 protected:
     /*OpenGL methods*/
@@ -23,7 +23,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 protected:
-    list<Vector2f> vertices;
+    vector<Vector2f> vertices;
+    list<Vector2i> edges;
 
 };
 

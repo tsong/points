@@ -3,11 +3,13 @@
 #include "glutils.h"
 
 
+
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
     QGLWidget(parent)
 {
 }
 
+DrawSurfaceWidget::~DrawSurfaceWidget() {}
 
 void DrawSurfaceWidget::initializeGL() {
     //set background color to white
@@ -35,11 +37,24 @@ void DrawSurfaceWidget::paintGL() {
     glColor3f(0,0,0);
 
     //draw vertices
-    {
-        for (list<Vector2f>::iterator it = vertices.begin(); it != vertices.end(); it++) {
-            Vector2f v = *it;
-            glDrawCircle(v[0], v[1]);
-        }
+    for (vector<Vector2f>::iterator it = vertices.begin(); it != vertices.end(); it++) {
+        Vector2f v = *it;
+        glDrawCircle(v[0], v[1]);
+    }
+
+    //draw edges
+    for (list<Vector2i>::iterator it = edges.begin(); it != edges.end(); it++) {
+        Vector2i e = *it;
+        Vector2f v1 = vertices[e[0]];
+        Vector2f v2 = vertices[e[1]];
+
+        glBegin(GL_LINES);
+        glVertex2f(v1[0],v1[1]);
+        glVertex2f(v2[0],v2[1]);
+        glEnd();
+
+        //qDebug() << e[0] << " " << e[1];
+        //qDebug() << QString("(%1,%2) -- (%3,%4)").arg(v1[0]).arg(v1[1]).arg(v2[0]).arg(v2[1]);
     }
 }
 
@@ -50,8 +65,11 @@ void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
     float y = 1.0 - (double)event->y() / (double) this->height();
 
     Vector2f v(x,y);
-    qDebug() << v[0] << " " << v[1];
+    //qDebug() << v[0] << " " << v[1];
 
     vertices.push_back(Vector2f(x,y));
+    edges = mst(vertices);
+
+    qDebug() << "# Edges: " << edges.size();
     repaint();
 }

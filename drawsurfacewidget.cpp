@@ -35,10 +35,9 @@ void DrawSurfaceWidget::paintGL() {
     //draw points
     glBegin(GL_POINTS);
     {
-        for (int i = 0; i < points.size(); i++) {
-            std::pair<double,double> p = points[i];
-            glVertex2f(p.first, p.second);
-            qDebug() << p.first << " " << p.second;
+        for (list<Vector2f>::iterator it = vertices.begin(); it != vertices.end(); it++) {
+            Vector2f v = *it;
+            glVertex2f(v[0], v[1]);
         }
     }
     glEnd();
@@ -48,9 +47,12 @@ void DrawSurfaceWidget::paintGL() {
 
 void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
     //normalize mouse coordinates
-    double x = (double)event->x() / (double)this->width();
-    double y = 1.0 - (double)event->y() / (double) this->height();
+    float x = (double)event->x() / (double)this->width();
+    float y = 1.0 - (double)event->y() / (double) this->height();
 
-    points.push_back(std::pair<double,double>(x,y));
+    Vector2f v(x,y);
+    qDebug() << v[0] << " " << v[1];
+
+    vertices.push_back(Vector2f(x,y));
     repaint();
 }

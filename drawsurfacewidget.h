@@ -4,6 +4,10 @@
 #include <QGLWidget>
 #include <QMouseEvent>
 
+#include "vector.h"
+
+using namespace std;
+
 class DrawSurfaceWidget : public QGLWidget
 {
     Q_OBJECT
@@ -19,7 +23,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 protected:
-    std::vector< std::pair<double,double> > points;
+    list<Vector2f> vertices;
 
 };
 

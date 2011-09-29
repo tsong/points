@@ -41,9 +41,9 @@ protected:
 template <typename T>
 class Vector2 : public Vector<T,2> {
 public:
-    Vector2(int x, int y) {
-        this->data[0] = x;
-        this->data[1] = y;
+    Vector2(T x, T y) {
+        Vector<T,2>::data[0] = x;
+        Vector<T,2>::data[1] = y;
     }
 };
 

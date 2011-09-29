@@ -12,10 +12,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    drawsurfacewidget.cpp
+    drawsurfacewidget.cpp \
+    matrix.cpp
 
 HEADERS  += mainwindow.h \
-    drawsurfacewidget.h
+    drawsurfacewidget.h \
+    matrix.h \
+    vector.h
 
 FORMS    +=
 

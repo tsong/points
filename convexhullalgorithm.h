@@ -10,11 +10,9 @@ public:
     void addVertex(Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
-    ConvexHullAlgorithm* getInstance();
 
 protected:
     vector<Vector2f> vertices;
-    static ConvexHullAlgorithm *instance;
 };
 
 /*STL comparator evaluating polar angle from starting vertex

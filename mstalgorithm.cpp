@@ -2,16 +2,6 @@
 
 #include <queue>
 
-MSTAlgorithm *MSTAlgorithm::instance = 0;
-
-MSTAlgorithm* MSTAlgorithm::getInstance() {
-    if (!instance) {
-        instance = new MSTAlgorithm();
-    }
-
-    return instance;
-}
-
 void MSTAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
 }

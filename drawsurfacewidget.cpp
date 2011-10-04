@@ -7,7 +7,7 @@
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
     QGLWidget(parent), pointsAlgorithm(0)
 {
-    pointsAlgorithm = MSTAlgorithm::getInstance();
+    pointsAlgorithm = new MSTAlgorithm();
 }
 
 DrawSurfaceWidget::~DrawSurfaceWidget() {}

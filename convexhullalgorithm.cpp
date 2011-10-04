@@ -1,15 +1,5 @@
 #include "convexhullalgorithm.h"
 
-ConvexHullAlgorithm *ConvexHullAlgorithm::instance = 0;
-
-
-ConvexHullAlgorithm* ConvexHullAlgorithm::getInstance() {
-    if (!instance)
-        instance = new ConvexHullAlgorithm();
-
-    return instance;
-}
-
 void ConvexHullAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
 }

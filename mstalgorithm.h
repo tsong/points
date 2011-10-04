@@ -6,11 +6,13 @@
 class MSTAlgorithm : public PointsAlgorithm
 {
 public:
-
-    list<Edge> getEdges(const vector<Vector2f> &vertices);
+    void addVertex(Vector2f v);
+    void setVertices(const vector<Vector2f> &vertices);
+    list<Edge> getEdges();
     static MSTAlgorithm* getInstance();
 
 protected:
+    vector<Vector2f> vertices;
     static MSTAlgorithm *instance;
 };
 

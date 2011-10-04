@@ -25,8 +25,8 @@ void DrawSurfaceWidget::resizeGL(int width, int height) {
     glLoadIdentity();
     glViewport(0, 0, width, height);
 
-    //the projection matrix is a square of width and length 1.0
-    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+    //use an orthographic projection in the same dimensions as the draw surface
+    glOrtho(0, width, height, 0, -1, 0);
 
     glMatrixMode(GL_MODELVIEW);
 }
@@ -53,25 +53,21 @@ void DrawSurfaceWidget::paintGL() {
         glVertex2f(v1[0],v1[1]);
         glVertex2f(v2[0],v2[1]);
         glEnd();
-
-        //qDebug() << e[0] << " " << e[1];
-        //qDebug() << QString("(%1,%2) -- (%3,%4)").arg(v1[0]).arg(v1[1]).arg(v2[0]).arg(v2[1]);
     }
 }
 
 
 void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
-    //normalize mouse coordinates
-    float x = (double)event->x() / (double)this->width();
-    float y = 1.0 - (double)event->y() / (double) this->height();
-
+    float x = (float)event->x();
+    float y = (float)event->y();
     Vector2f v(x,y);
-    //qDebug() << v[0] << " " << v[1];
 
-    vertices.push_back(Vector2f(x,y));
-    if (pointsAlgorithm)
-        edges = pointsAlgorithm->getEdges(vertices);
+    //add a new vertex and calculate new edges
+    vertices.push_back(v);
+    if (pointsAlgorithm) {
+        pointsAlgorithm->addVertex(v);
+        edges = pointsAlgorithm->getEdges();
+    }
 
-    qDebug() << "# Edges: " << edges.size();
     repaint();
 }

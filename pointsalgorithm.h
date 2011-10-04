@@ -19,7 +19,9 @@ class PointsAlgorithm
 {
 public:
 
-    virtual list<Edge> getEdges(const vector<Vector2f> &vertices) = 0;
+    virtual void addVertex(Vector2f v) = 0;
+    virtual void setVertices(const vector<Vector2f> &vertices) = 0;
+    virtual list<Edge> getEdges() = 0;
 
 protected:
     PointsAlgorithm() {}

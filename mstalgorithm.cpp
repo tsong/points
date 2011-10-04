@@ -12,7 +12,15 @@ MSTAlgorithm* MSTAlgorithm::getInstance() {
     return instance;
 }
 
-list<Edge> MSTAlgorithm::getEdges(const vector<Vector2f> &vertices) {
+void MSTAlgorithm::addVertex(Vector2f v) {
+    this->vertices.push_back(v);
+}
+
+void MSTAlgorithm::setVertices(const vector<Vector2f> &vertices) {
+    this->vertices = vertices;
+}
+
+list<Edge> MSTAlgorithm::getEdges() {
     uint n = vertices.size();
     list<Edge> edges;
     if (n <= 1) return edges;

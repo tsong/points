@@ -2,6 +2,7 @@
 
 ConvexHullAlgorithm *ConvexHullAlgorithm::instance = 0;
 
+
 ConvexHullAlgorithm* ConvexHullAlgorithm::getInstance() {
     if (!instance)
         instance = new ConvexHullAlgorithm();
@@ -9,7 +10,16 @@ ConvexHullAlgorithm* ConvexHullAlgorithm::getInstance() {
     return instance;
 }
 
-list<Edge> ConvexHullAlgorithm::getEdges(const vector<Vector2f> &vertices) {
+void ConvexHullAlgorithm::addVertex(Vector2f v) {
+    this->vertices.push_back(v);
+}
+
+void ConvexHullAlgorithm::setVertices(const vector<Vector2f> &vertices) {
+    this->vertices = vertices;
+}
+
+
+list<Edge> ConvexHullAlgorithm::getEdges() {
     int n = vertices.size();
     list<Edge> edges;
     if (n <= 1) return edges;

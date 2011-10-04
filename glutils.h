@@ -5,12 +5,12 @@
 
 #define PRECISION 360
 #define PI 3.14159265
-#define DEFAULT_RADIUS 0.01
+#define DEFAULT_RADIUS 6.0
 
 //draws a circle at (x,y) with radius r using OpenGL
 void glDrawCircle(float x, float y, float r=DEFAULT_RADIUS) {
     //translate to x,y
-    glLoadIdentity();
+    glPushMatrix();
     glTranslatef(x,y,0);
 
     //divide circle into sections
@@ -27,7 +27,7 @@ void glDrawCircle(float x, float y, float r=DEFAULT_RADIUS) {
             glVertex2d(x,y);
         }
     glEnd();
-    glLoadIdentity();
+    glPopMatrix();
 }
 
 

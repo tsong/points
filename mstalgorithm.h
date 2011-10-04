@@ -3,8 +3,7 @@
 
 #include "pointsalgorithm.h"
 
-class MSTAlgorithm : public PointsAlgorithm
-{
+class MSTAlgorithm : public PointsAlgorithm {
 public:
     void addVertex(Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);

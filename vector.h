@@ -8,10 +8,31 @@ typedef unsigned int uint;
 template <typename T, uint N>
 class Vector {
 public:
-    Vector() {}
+    Vector() {
+        this->zero();
+    }
+
     Vector(const Vector<T,N> &v) {
         for (uint i = 0; i < N; i++)
             this->data[i] = v.data[i];
+    }
+
+    Vector(T x, T y) {
+        this->zero();
+        if (N >= 1) data[0] = x;
+        if (N >= 2) data[1] = y;
+    }
+
+    Vector(T x, T y, T z) {
+        this->zero();
+        if (N >= 1) data[0] = x;
+        if (N >= 2) data[1] = y;
+        if (N >= 3) data[2] = z;
+    }
+
+    void zero() {
+        for (uint i = 0; i < N; i++)
+            this->data[i] = 0;
     }
 
     double magnitude() const {
@@ -64,34 +85,13 @@ protected:
     T data[N];
 };
 
-template <typename T>
-class Vector2 : public Vector<T,2> {
-public:
-    Vector2() {}
-    Vector2(T x, T y) {
-        Vector<T,2>::data[0] = x;
-        Vector<T,2>::data[1] = y;
-    }
-};
 
-template <typename T>
-class Vector3 : public Vector<T,3> {
-public:
-    Vector3() {}
-    Vector3(T x, T y, T z) {
-        this->data[0] = x;
-        this->data[1] = y;
-        this->data[2] = z;
-    }
-};
+typedef Vector<int, 2> Vector2i;
+typedef Vector<float, 2> Vector2f;
+typedef Vector<double, 2> Vector2d;
 
-
-typedef Vector2<int> Vector2i;
-typedef Vector2<float> Vector2f;
-typedef Vector2<double> Vector2d;
-
-typedef Vector3<int> Vector3i;
-typedef Vector3<float> Vector3f;
-typedef Vector3<double> Vector3d;
+typedef Vector<int,3 > Vector3i;
+typedef Vector<float, 3> Vector3f;
+typedef Vector<double, 3> Vector3d;
 
 #endif // VECTOR_H

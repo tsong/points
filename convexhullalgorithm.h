@@ -14,7 +14,7 @@ protected:
     static ConvexHullAlgorithm *instance;
 };
 
-/*STL comparator evaluating polar angle from starting vertex*/
+/*STL comparator evaluating polar angle from starting vertex
 class ConvexHullCompare {
 public:
     ConvexHullCompare(const Vector2f &start)
@@ -30,6 +30,6 @@ public:
     }
 private:
     const Vector2f &start;
-};
+};*/
 
 #endif // CONVEXHULLALGORITHM_H

@@ -14,7 +14,7 @@ list<Edge> ConvexHullAlgorithm::getEdges(const vector<Vector2f> &vertices) {
     list<Edge> edges;
     if (n <= 1) return edges;
 
-
+    /*
     //get vertex with minimum y-value (and x-value if there is a tie)
     Vector2f minVertex = vertices[0];
     for (int i = 1; i < n; i++) {
@@ -32,7 +32,7 @@ list<Edge> ConvexHullAlgorithm::getEdges(const vector<Vector2f> &vertices) {
             sortedVertices.begin(),
             sortedVertices.end(),
             ConvexHullCompare(minVertex));
-
+    */
 
     return edges;
 }

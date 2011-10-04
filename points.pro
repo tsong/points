@@ -13,7 +13,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     drawsurfacewidget.cpp \
-    matrix.cpp \
     mstalgorithm.cpp \
     convexhullalgorithm.cpp \
     triangulationalgorithm.cpp

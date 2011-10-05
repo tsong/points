@@ -20,6 +20,7 @@ int pointLineTest (Vector2f a, Vector2f b, Vector2f p) {
 
 //returns true if vertex d is in the circumcircle of triangle abc
 bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
+    qDebug() << "LOL";
     Matrix4f M;
 
     Vector2f *vectors[4] = {&a, &b, &c, &d};
@@ -28,6 +29,7 @@ bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
         M[i] = Vector4f(v[0], v[1], v[0]*v[0] + v[1]*v[1], 1);
     }
 
+    qDebug() << "DET:" << M.det();
     return M.det() > 0;
 }
 
@@ -79,7 +81,7 @@ void TriangulationAlgorithm::addTriangle(Triangle t) {
     for (uint i = 0; i < 3; i++) {
         for (uint j = i+1; j < 3; j++) {
             uint h = hash(T[i],T[j]);
-            uint otherIndex = t.i + t.j + t.k - (T[i] + T[j]);    //adjacent vertex is the unused index
+            uint other = t.i + t.j + t.k - (T[i] + T[j]);    //adjacent vertex is the unused index
 
             //add pair to map if entry does not already exist
             if (adjVertices.find(h) == adjVertices.end()) {
@@ -87,15 +89,14 @@ void TriangulationAlgorithm::addTriangle(Triangle t) {
                 adjVertices[h] = pair<int,int>(-1,-1);
             }
             pair<int,int> verts = adjVertices[h];
-            //qDebug() << "        Altering Mapping" << T[i] << T[j] << "|" << verts.first << verts.second << "h:" << h;
-
 
             if (verts.first < 0)
-                verts.first = otherIndex;
+                verts.first = other;
             else
-                verts.second = otherIndex;
+                verts.second = other;
 
             adjVertices[h] = verts;
+            //qDebug() << "        Altering Mapping" << T[i] << T[j] << "|" << verts.first << verts.second << "h:" << h;
         }
     }
 }
@@ -104,7 +105,7 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
    // qDebug() << "REMOVING:" << t.i << t.j << t.k;
     //remove triangles from list
     for (list<Triangle>::iterator it = triangles.begin(); it != triangles.end(); it++) {
-        Triangle tt = *it;
+        //Triangle tt = *it;
         //qDebug() << "testing:" << tt.i << tt.j << tt.k;
         if (t == *it) {
             triangles.erase(it);
@@ -118,7 +119,20 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
         for (uint j = i+1; j < 3; j++) {
             //qDebug() << "    Erase Mapping:" << T[i] << T[j];
             uint h = hash(T[i],T[j]);
-            adjVertices.erase(h);
+            uint other = t.i + t.j + t.k - (T[i] + T[j]);    //adjacent vertex is the unused index
+
+            //clean up adjacency vertex map
+            pair<int,int> verts = adjVertices[h];
+            if (verts.first < 0 || verts.second < 0) {
+                adjVertices.erase(h);
+            } else if (verts.first == other) {
+                verts.first = -1;
+                adjVertices[h] = verts;
+            } else if (verts.second == other) {
+                verts.second = -1;
+                adjVertices[h] = verts;
+            }
+
         }
     }
 }
@@ -126,14 +140,15 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
 void TriangulationAlgorithm::flip(uint a, uint b) {
     pair<int,int> verts = adjVertices[hash(a,b)];
 
-    //qDebug() << "    FLIP" << a << b << "|" << verts.first << verts.second;
+    qDebug() << "    FLIP" << a << b << "|" << verts.first << verts.second;
     //if edge ab is exterior facing, then we don't need to flip
     if (verts.first < 0 || verts.second < 0) return;
+    qDebug() << "****";
 
     //c = point to the right of edge ab
     //d = point to the left of edge ab
     uint c,d;
-    if (pointLineTest(vertices[a], vertices[b], vertices[verts.first]) > 0) {
+    if (pointLineTest(vertices[a], vertices[b], vertices[verts.first]) < 0) {
         c = verts.first;
         d = verts.second;
     } else {
@@ -147,6 +162,7 @@ void TriangulationAlgorithm::flip(uint a, uint b) {
     if (inCircle(vertices[a],vertices[b],vertices[c],vertices[d])) {
         //flip ab to pd
         removeTriangle(Triangle(a,b,c));
+        removeTriangle(Triangle(a,b,d));
         addTriangle(Triangle(c,a,d));
         addTriangle(Triangle(c,b,d));
         qDebug() << "FLIPPED!";

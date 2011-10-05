@@ -61,9 +61,10 @@ public:
         return result;
     }
 
-    Vector<T,N> cross(const Vector<T,N> &b) const {
+    Vector<T,N> cross(const Vector<T,N> &v) const {
         Vector<T,N> c;
         const T (&a)[N] = data;
+        const T (&b)[N] = v.data;
 
         switch(N) {
         case 1:

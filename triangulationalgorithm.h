@@ -7,6 +7,8 @@
 #include <map>
 #include <set>
 
+#include <QDebug>
+
 //coordinates of bounding triangle
 #define MIN_TRIANGLE_X -1000000
 #define MAX_TRIANGLE_X  1000000
@@ -34,6 +36,7 @@ typedef struct Triangle {
         indices.insert(t.k);
 
         set<uint>::iterator fail = indices.end();
+        //qDebug() << "COMP:" << (indices.find(i) != fail && indices.find(j) != fail && indices.find(k) != fail);
         return indices.find(i) != fail && indices.find(j) != fail && indices.find(k) != fail;
     }
 } Triangle;
@@ -66,7 +69,7 @@ protected:
     //such that uvw and uvx are triangles in the triangulation.
     //It may be possible that uv is an external edge, in which
     //case only one of (w,x) is a positive index.
-    map< unsigned long, pair<int, int> > adjVertices;
+    map< uint, pair<int, int> > adjVertices;
 };
 
 #endif // TRIANGULATIONALGORITHM_H

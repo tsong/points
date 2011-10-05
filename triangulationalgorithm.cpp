@@ -48,13 +48,13 @@ bool inTriangle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
 }
 
 //hashes two vertex indices for map lookup
-unsigned long hash(uint i, uint j) {
+uint hash(uint i, uint j) {
     if (i > j) {
         uint tmp = i;
         i = j;
         j= tmp;
     }
-    return (i << 32) | j;
+    return (i << 16) | j;
 }
 
 void TriangulationAlgorithm::reset() {
@@ -72,19 +72,22 @@ void TriangulationAlgorithm::reset() {
 
 void TriangulationAlgorithm::addTriangle(Triangle t) {
     triangles.push_back(t);
+    //qDebug() << "ADDING" << t.i << t.j << t.k;
 
     //add all edges to adjacent vertices map
     uint T[3] = {t.i, t.j, t.k};
     for (uint i = 0; i < 3; i++) {
-        for (uint j = i; j < 3; j++) {
-            unsigned long h = hash(T[i],T[j]);
+        for (uint j = i+1; j < 3; j++) {
+            uint h = hash(T[i],T[j]);
             uint otherIndex = t.i + t.j + t.k - (T[i] + T[j]);    //adjacent vertex is the unused index
 
             //add pair to map if entry does not already exist
             if (adjVertices.find(h) == adjVertices.end()) {
+                //qDebug() << "    Create Mapping:" << T[i] << T[j];
                 adjVertices[h] = pair<int,int>(-1,-1);
             }
             pair<int,int> verts = adjVertices[h];
+            //qDebug() << "        Altering Mapping" << T[i] << T[j] << "|" << verts.first << verts.second << "h:" << h;
 
 
             if (verts.first < 0)
@@ -98,16 +101,23 @@ void TriangulationAlgorithm::addTriangle(Triangle t) {
 }
 
 void TriangulationAlgorithm::removeTriangle(Triangle t) {
+   // qDebug() << "REMOVING:" << t.i << t.j << t.k;
     //remove triangles from list
     for (list<Triangle>::iterator it = triangles.begin(); it != triangles.end(); it++) {
-        if (t == *it) triangles.erase(it);
+        Triangle tt = *it;
+        //qDebug() << "testing:" << tt.i << tt.j << tt.k;
+        if (t == *it) {
+            triangles.erase(it);
+            break;
+        }
     }
 
     //remove entries from adjVertices map
     uint T[3] = {t.i, t.j, t.k};
     for (uint i = 0; i < 3; i++) {
-        for (uint j = i; j < 3; j++) {
-            unsigned long h = hash(T[i],T[j]);
+        for (uint j = i+1; j < 3; j++) {
+            //qDebug() << "    Erase Mapping:" << T[i] << T[j];
+            uint h = hash(T[i],T[j]);
             adjVertices.erase(h);
         }
     }
@@ -116,6 +126,7 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
 void TriangulationAlgorithm::flip(uint a, uint b) {
     pair<int,int> verts = adjVertices[hash(a,b)];
 
+    //qDebug() << "    FLIP" << a << b << "|" << verts.first << verts.second;
     //if edge ab is exterior facing, then we don't need to flip
     if (verts.first < 0 || verts.second < 0) return;
 
@@ -138,6 +149,7 @@ void TriangulationAlgorithm::flip(uint a, uint b) {
         removeTriangle(Triangle(a,b,c));
         addTriangle(Triangle(c,a,d));
         addTriangle(Triangle(c,b,d));
+        qDebug() << "FLIPPED!";
 
         //test new edges that are formed
         flip(a,d);
@@ -158,8 +170,8 @@ void TriangulationAlgorithm::addVertex(Vector2f v) {
     //find containing triangle
     for (list<Triangle>::iterator it = triangles.begin(); it != triangles.end(); it++) {
         t = *it;
+        //qDebug() << "T:" << t.i << t.j << t.k;
         if (inTriangle(vertices[t.i], vertices[t.j], vertices[t.k], v)) {
-            removeTriangle(t);    //delete this triangle
             found = true;
             break;
         }
@@ -170,6 +182,7 @@ void TriangulationAlgorithm::addVertex(Vector2f v) {
     }
 
     //divide containing triangle into 3 triangles using v
+    removeTriangle(t);    //delete this triangle
     uint idx =  vertices.size()-1;
     Triangle t1(t.i, t.j, idx);
     Triangle t2(t.i, t.k, idx);
@@ -194,14 +207,19 @@ void TriangulationAlgorithm::setVertices(const vector<Vector2f> &vertices) {
 list<Edge> TriangulationAlgorithm::getEdges() {
     list<Edge> edges;
 
-    for (map< unsigned long, pair<int, int> >::iterator it = adjVertices.begin();
+    for (map< uint, pair<int, int> >::iterator it = adjVertices.begin();
         it != adjVertices.end();
         it++)
     {
-        unsigned long h = (*it).first;
-        uint u = h >> 32;
-        uint v = h && 0xFFFFFFFF;
+        uint h = (*it).first;
+        //qDebug() << "        HASH:" << h;
+        uint u = h >> 16;
+        uint v = (h << 16) >> 16;
         edges.push_back(Edge(vertices[u],vertices[v]));
+
+        Vector2f v1 = vertices[u];
+        Vector2f v2 = vertices[v];
+        //qDebug() << "    EDGE:" << QString("(%1,%2) = ").arg(u).arg(v) << QString("(%1,%2) to (%3,%4)").arg(v1[0]).arg(v1[1]).arg(v2[0]).arg(v2[1]);
     }
 
     return edges;

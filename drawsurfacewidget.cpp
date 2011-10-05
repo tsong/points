@@ -2,12 +2,13 @@
 #include "drawsurfacewidget.h"
 #include "glutils.h"
 
-
+#include "triangulationalgorithm.h"
 
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
     QGLWidget(parent), pointsAlgorithm(0)
 {
-    pointsAlgorithm = new MSTAlgorithm();
+    //pointsAlgorithm = new MSTAlgorithm();
+    pointsAlgorithm = new TriangulationAlgorithm();
 }
 
 DrawSurfaceWidget::~DrawSurfaceWidget() {}
@@ -46,8 +47,8 @@ void DrawSurfaceWidget::paintGL() {
     //draw edges
     for (list<Edge>::iterator it = edges.begin(); it != edges.end(); it++) {
         Edge e = *it;
-        Vector2f v1 = *e.u;
-        Vector2f v2 = *e.v;
+        Vector2f v1 = e.u;
+        Vector2f v2 = e.v;
 
         glBegin(GL_LINES);
         glVertex2f(v1[0],v1[1]);

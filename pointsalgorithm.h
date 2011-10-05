@@ -8,10 +8,10 @@
 using namespace std;
 
 typedef struct edge {
-    const Vector2f *u;
-    const Vector2f *v;
+    Vector2f u;
+    Vector2f v;
 
-    edge(const Vector2f *ptr1, const Vector2f *ptr2) : u(ptr1), v(ptr2) {}
+    edge(const Vector2f a, const Vector2f b) : u(a), v(b) {}
 } Edge;
 
 //Abstract class defining points algorithms that return an edge list

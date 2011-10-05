@@ -32,7 +32,7 @@ list<Edge> MSTAlgorithm::getEdges() {
         uint i = queue.top();
         Vector2f v1 = vertices[i];
         visited[i] = true;
-        edges.push_back(Edge(&vertices[i], &vertices[parent[i]]));
+        edges.push_back(Edge(vertices[i], vertices[parent[i]]));
 
         for (uint j = 0; j < n; j++) {
             if (i != j && !visited[j]) {

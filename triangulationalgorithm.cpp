@@ -12,7 +12,7 @@ int pointLineTest (Vector2f a, Vector2f b, Vector2f p) {
 
     if (c[0] < 0)
         return -1;
-    else if (c[1] > 0)
+    else if (c[0] > 0)
         return 1;
     else
         return 0;
@@ -33,6 +33,15 @@ bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
 
 //returns true if vertex d is in triangle abc
 bool inTriangle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
+    /*qDebug() << "Triangles";
+    qDebug() << QString("(%1,%2)").arg(a[0]).arg(a[1]);
+    qDebug() << QString("(%1,%2)").arg(b[0]).arg(b[1]);
+    qDebug() << QString("(%1,%2)").arg(c[0]).arg(c[1]);
+    qDebug() << "Point: " << QString("(%1,%2)").arg(d[0]).arg(d[1]);
+    qDebug() << "TEST 1:" << pointLineTest(a,b,d) << -pointLineTest(a,c,d);
+    qDebug() << "TEST 2:" << pointLineTest(b,c,d) << -pointLineTest(b,a,d);
+    qDebug() << "TEST 3:" << pointLineTest(c,b,d) << -pointLineTest(c,a,d);*/
+
     return pointLineTest(a,b,d) == -pointLineTest(a,c,d)
            && pointLineTest(b,c,d) == -pointLineTest(b,a,d)
            && pointLineTest(c,b,d) == -pointLineTest(c,a,d);
@@ -183,11 +192,18 @@ void TriangulationAlgorithm::setVertices(const vector<Vector2f> &vertices) {
 }
 
 list<Edge> TriangulationAlgorithm::getEdges() {
+    list<Edge> edges;
+
     for (map< unsigned long, pair<int, int> >::iterator it = adjVertices.begin();
         it != adjVertices.end();
         it++)
     {
-
+        unsigned long h = (*it).first;
+        uint u = h >> 32;
+        uint v = h && 0xFFFFFFFF;
+        edges.push_back(Edge(vertices[u],vertices[v]));
     }
+
+    return edges;
 }
 

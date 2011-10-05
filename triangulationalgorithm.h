@@ -8,10 +8,10 @@
 #include <set>
 
 //coordinates of bounding triangle
-#define MIN_TRIANGLE_X -100000000
-#define MAX_TRIANGLE_X  100000000
-#define MIN_TRIANGLE_Y -100000000
-#define MAX_TRIANGLE_Y  100000000
+#define MIN_TRIANGLE_X -1000000
+#define MAX_TRIANGLE_X  1000000
+#define MIN_TRIANGLE_Y -1000000
+#define MAX_TRIANGLE_Y  1000000
 
 //represents a triangle using the ith, jth, and kth vertices
 typedef struct Triangle {

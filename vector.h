@@ -35,7 +35,7 @@ public:
         if (N >= 1) data[0] = x;
         if (N >= 2) data[1] = y;
         if (N >= 3) data[2] = z;
-        if (N >= 4) data[2] = w;
+        if (N >= 4) data[3] = w;
     }
 
     void zero() {
@@ -61,7 +61,29 @@ public:
         return result;
     }
 
-    Vector<T,N> cross(const Vector<T,N> &v) const;
+    Vector<T,N> cross(const Vector<T,N> &b) const {
+        Vector<T,N> c;
+        const T (&a)[N] = data;
+
+        switch(N) {
+        case 1:
+            c[0] = a[0]*b[0];
+            break;
+        case 2:
+            c[0] = a[1]*b[0] - a[0]*b[1];
+            c[1] = a[0]*b[0] - a[0]*b[0];
+            break;
+        case 3:
+            c[0] = a[1]*b[2] - a[2]*b[1];
+            c[1] = a[2]*b[0] - a[0]*b[2];
+            c[2] = a[0]*b[1] - a[1]*b[0];
+        default:
+            //TODO: implement general cross product function
+            break;
+        }
+
+        return c;
+    }
 
     Vector<T,N> operator-(const Vector<T,N> &v) const {
         Vector<T,N> result;

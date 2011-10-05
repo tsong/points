@@ -231,10 +231,13 @@ list<Edge> TriangulationAlgorithm::getEdges() {
         //qDebug() << "        HASH:" << h;
         uint u = h >> 16;
         uint v = (h << 16) >> 16;
-        edges.push_back(Edge(vertices[u],vertices[v]));
 
-        Vector2f v1 = vertices[u];
-        Vector2f v2 = vertices[v];
+        //don't add bounding triangle edges
+        if (u >= 3 && v >= 3)
+            edges.push_back(Edge(vertices[u],vertices[v]));
+
+        //Vector2f v1 = vertices[u];
+        //Vector2f v2 = vertices[v];
         //qDebug() << "    EDGE:" << QString("(%1,%2) = ").arg(u).arg(v) << QString("(%1,%2) to (%3,%4)").arg(v1[0]).arg(v1[1]).arg(v2[0]).arg(v2[1]);
     }
 

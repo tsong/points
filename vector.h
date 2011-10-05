@@ -30,6 +30,14 @@ public:
         if (N >= 3) data[2] = z;
     }
 
+    Vector(T x, T y, T z, T w) {
+        this->zero();
+        if (N >= 1) data[0] = x;
+        if (N >= 2) data[1] = y;
+        if (N >= 3) data[2] = z;
+        if (N >= 4) data[2] = w;
+    }
+
     void zero() {
         for (uint i = 0; i < N; i++)
             this->data[i] = 0;
@@ -93,5 +101,9 @@ typedef Vector<double, 2> Vector2d;
 typedef Vector<int,3 > Vector3i;
 typedef Vector<float, 3> Vector3f;
 typedef Vector<double, 3> Vector3d;
+
+typedef Vector<int, 4> Vector4i;
+typedef Vector<float, 4> Vector4f;
+typedef Vector<double, 4> Vector4d;
 
 #endif // VECTOR_H

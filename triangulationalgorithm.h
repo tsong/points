@@ -2,6 +2,7 @@
 #define TRIANGULATIONALGORITHM_H
 
 #include "pointsalgorithm.h"
+#include "matrix.h"
 
 class TriangulationAlgorithm : public PointsAlgorithm {
 public:

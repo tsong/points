@@ -8,7 +8,8 @@
 #define ABS(x) (x < 0 ? -x : x)
 
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
-    QGLWidget(parent), pointsAlgorithm(0), selected(false)
+    QGLWidget(parent), drawVertices(true), drawEdges(true), drawDualVertices(true),
+    drawDualEdges(true), pointsAlgorithm(0), selected(false)
 {
     //pointsAlgorithm = new MSTAlgorithm();
    // pointsAlgorithm = new TriangulationAlgorithm();
@@ -43,63 +44,57 @@ void DrawSurfaceWidget::paintGL() {
     glColor3f(0,0,0);
 
     //draw vertices
-    for (uint i = 0; i < vertices.size(); i++) {
-        Vector2f v = vertices[i];
-        if (selected && selectedIndex == i) {
-            glColor3f(0,0,1);
-            glDrawCircle(v[0], v[1], VERTEX_RADIUS);
-            glColor3f(0,0,0);
-        } else {
-            glDrawCircle(v[0], v[1], VERTEX_RADIUS);
+    if (drawVertices) {
+        for (uint i = 0; i < vertices.size(); i++) {
+            Vector2f v = vertices[i];
+            if (selected && selectedIndex == i) {
+                glColor3f(0,0,1);
+                glDrawCircle(v[0], v[1], VERTEX_RADIUS);
+                glColor3f(0,0,0);
+            } else {
+                glDrawCircle(v[0], v[1], VERTEX_RADIUS);
+            }
         }
     }
 
     //draw edges
-    glColor4f(0.1,0.1,0.1,0.3);
-    for (list<Edge>::iterator it = edges.begin(); it != edges.end(); it++) {
-        Edge e = *it;
-        Vector2f v1 = e.u;
-        Vector2f v2 = e.v;
+    if (drawEdges) {
+        glColor3f(0,0,0);
+        for (list<Edge>::iterator it = edges.begin(); it != edges.end(); it++) {
+            Edge e = *it;
+            Vector2f v1 = e.u;
+            Vector2f v2 = e.v;
 
-        glBegin(GL_LINES);
-        glVertex2f(v1[0],v1[1]);
-        glVertex2f(v2[0],v2[1]);
-        glEnd();
+            glBegin(GL_LINES);
+            glVertex2f(v1[0],v1[1]);
+            glVertex2f(v2[0],v2[1]);
+            glEnd();
+        }
     }
 
-    glColor3f(1,0,0);
-    //pointsAlgorithm->getDualVertices();
     //draw dual vertices;
-    for (list<Vector2f>::iterator it = dualVertices.begin(); it != dualVertices.end(); it++) {
-        Vector2f v = *it;
-        //glDrawCircle(v[0], v[1], VERTEX_RADIUS);
+    if (drawDualVertices) {
+        glColor3f(1,0,0);
+        for (list<Vector2f>::iterator it = dualVertices.begin(); it != dualVertices.end(); it++) {
+            Vector2f v = *it;
+            glDrawCircle(v[0], v[1], VERTEX_RADIUS);
+        }
     }
 
     //draw dual edges
-    for (list<Edge>::iterator it = dualEdges.begin(); it != dualEdges.end(); it++) {
-        Edge e = *it;
-        Vector2f v1 = e.u;
-        Vector2f v2 = e.v;
+    if (drawDualEdges) {
+        for (list<Edge>::iterator it = dualEdges.begin(); it != dualEdges.end(); it++) {
+            Edge e = *it;
+            Vector2f v1 = e.u;
+            Vector2f v2 = e.v;
 
-        glBegin(GL_LINES);
-        glVertex2f(v1[0],v1[1]);
-        glVertex2f(v2[0],v2[1]);
-        glEnd();
+            glBegin(GL_LINES);
+            glVertex2f(v1[0],v1[1]);
+            glVertex2f(v2[0],v2[1]);
+            glEnd();
+        }
     }
 }
-
-void DrawSurfaceWidget::clear() {
-    if (pointsAlgorithm) {
-        pointsAlgorithm->reset();
-    }
-
-    vertices.clear();
-    edges.clear();
-    dualVertices.clear();
-    dualEdges.clear();
-    repaint();
-}
-
 
 void DrawSurfaceWidget::updateGraph() {
     if (pointsAlgorithm) {
@@ -159,5 +154,46 @@ void DrawSurfaceWidget::mouseMoveEvent(QMouseEvent *event) {
 
 void DrawSurfaceWidget::mouseReleaseEvent(QMouseEvent *) {
     selected = false;
+    repaint();
+}
+
+void DrawSurfaceWidget::clear() {
+    if (pointsAlgorithm) {
+        pointsAlgorithm->reset();
+    }
+
+    vertices.clear();
+    edges.clear();
+    dualVertices.clear();
+    dualEdges.clear();
+    repaint();
+}
+
+//SLOTS
+void DrawSurfaceWidget::changeAlgorithm(PointsAlgorithm *algorithm) {
+    this->pointsAlgorithm = algorithm;
+    this->pointsAlgorithm->setVertices(vertices);
+    updateGraph();
+    repaint();
+}
+
+void DrawSurfaceWidget::toggleVertices(bool on) {
+    toggle(drawVertices, on);
+}
+
+void DrawSurfaceWidget::toggleEdges(bool on) {
+    toggle(drawEdges, on);
+}
+
+void DrawSurfaceWidget::toggleDualVertices(bool on) {
+    toggle(drawDualVertices, on);
+}
+
+void DrawSurfaceWidget::toggleDualEdges(bool on) {
+    toggle(drawDualEdges, on);
+}
+
+void DrawSurfaceWidget::toggle(bool &setting, bool on) {
+    setting = on;
     repaint();
 }

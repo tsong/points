@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 
 #include "vector.h"
-#include "mstalgorithm.h"
+#include "pointsalgorithm.h"
 
 #define VERTEX_RADIUS 5
 
@@ -19,8 +19,14 @@ public:
 
 public slots:
     void clear();
+    void changeAlgorithm(PointsAlgorithm *algorithm);
+    void toggleVertices(bool on);
+    void toggleEdges(bool on);
+    void toggleDualVertices(bool on);
+    void toggleDualEdges(bool on);
 
 protected:
+    void toggle(bool &setting, bool on);
     void updateGraph();
 
     /*OpenGL methods*/
@@ -33,6 +39,11 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
 
 protected:
+    bool drawVertices;
+    bool drawEdges;
+    bool drawDualVertices;
+    bool drawDualEdges;
+
     vector<Vector2f> vertices;
     list<Edge> edges;
 

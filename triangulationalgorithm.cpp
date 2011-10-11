@@ -20,7 +20,6 @@ int pointLineTest (Vector2f a, Vector2f b, Vector2f p) {
 
 //returns true if vertex d is in the circumcircle of triangle abc
 bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
-    qDebug() << "LOL";
     Matrix4f M;
 
     Vector2f *vectors[4] = {&a, &b, &c, &d};
@@ -29,7 +28,6 @@ bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
         M[i] = Vector4f(v[0], v[1], v[0]*v[0] + v[1]*v[1], 1);
     }
 
-    qDebug() << "DET:" << M.det();
     return M.det() > 0;
 }
 
@@ -57,6 +55,12 @@ uint hash(uint i, uint j) {
         j= tmp;
     }
     return (i << 16) | j;
+}
+
+//unhash a hash to two vertex indices
+void unhash(uint h, uint &u, uint &v) {
+    u = h >> 16;
+    v = (h << 16) >> 16;
 }
 
 void TriangulationAlgorithm::reset() {
@@ -125,10 +129,10 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
             pair<int,int> verts = adjVertices[h];
             if (verts.first < 0 || verts.second < 0) {
                 adjVertices.erase(h);
-            } else if (verts.first == other) {
+            } else if (verts.first == (int)other) {
                 verts.first = -1;
                 adjVertices[h] = verts;
-            } else if (verts.second == other) {
+            } else if (verts.second == (int)other) {
                 verts.second = -1;
                 adjVertices[h] = verts;
             }
@@ -140,10 +144,9 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
 void TriangulationAlgorithm::flip(uint a, uint b) {
     pair<int,int> verts = adjVertices[hash(a,b)];
 
-    qDebug() << "    FLIP" << a << b << "|" << verts.first << verts.second;
+    //qDebug() << "    FLIP" << a << b << "|" << verts.first << verts.second;
     //if edge ab is exterior facing, then we don't need to flip
     if (verts.first < 0 || verts.second < 0) return;
-    qDebug() << "****";
 
     //c = point to the right of edge ab
     //d = point to the left of edge ab
@@ -165,7 +168,6 @@ void TriangulationAlgorithm::flip(uint a, uint b) {
         removeTriangle(Triangle(a,b,d));
         addTriangle(Triangle(c,a,d));
         addTriangle(Triangle(c,b,d));
-        qDebug() << "FLIPPED!";
 
         //test new edges that are formed
         flip(a,d);
@@ -229,8 +231,8 @@ list<Edge> TriangulationAlgorithm::getEdges() {
     {
         uint h = (*it).first;
         //qDebug() << "        HASH:" << h;
-        uint u = h >> 16;
-        uint v = (h << 16) >> 16;
+        uint u,v;
+        unhash(h,u,v);
 
         //don't add bounding triangle edges
         if (u >= 3 && v >= 3)

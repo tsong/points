@@ -52,6 +52,15 @@ public:
         return sqrt(sum);
     }
 
+    Vector<T,N> unit() {
+        Vector<T,N> result;
+        double mag = magnitude();
+        for (uint i = 0; i < N; i++) {
+            result[i] = data[i] / mag;
+        }
+        return result;
+    }
+
     T dot(const Vector<T,N> &v) const {
         T result = 0;
         for (uint i = 0; i < N; i++) {
@@ -90,6 +99,27 @@ public:
         Vector<T,N> result;
         for (uint i = 0; i < N; i++)
             result.data[i] = data[i] - v.data[i];
+        return result;
+    }
+
+    Vector<T,N> operator+(const Vector<T,N> &v) const {
+        Vector<T,N> result;
+        for (uint i = 0; i < N; i++)
+            result.data[i] = data[i] + v.data[i];
+        return result;
+    }
+
+    Vector<T,N> operator*(T scalar) {
+        Vector<T,N> result;
+        for (uint i = 0; i < N; i++)
+            result.data[i] = data[i] * scalar;
+        return result;
+    }
+
+    Vector<T,N> operator/(T scalar) {
+        Vector<T,N> result;
+        for (uint i = 0; i < N; i++)
+            result.data[i] = data[i] / scalar;
         return result;
     }
 

@@ -3,12 +3,14 @@
 #include "glutils.h"
 
 #include "triangulationalgorithm.h"
+#include "voronoialgorithm.h"
 
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
     QGLWidget(parent), pointsAlgorithm(0)
 {
     //pointsAlgorithm = new MSTAlgorithm();
-    pointsAlgorithm = new TriangulationAlgorithm();
+    //pointsAlgorithm = new TriangulationAlgorithm();
+    pointsAlgorithm = new VoronoiAlgorithm();
 }
 
 DrawSurfaceWidget::~DrawSurfaceWidget() {}

@@ -8,6 +8,8 @@ public:
     void addVertex(Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
+    list<Vector2f> getDualVertices() { return list<Vector2f>(); }
+    list<Edge> getDualEdges() { return list<Edge>(); }
 
 protected:
     vector<Vector2f> vertices;

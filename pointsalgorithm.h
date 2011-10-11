@@ -22,6 +22,8 @@ public:
     virtual void addVertex(Vector2f v) = 0;
     virtual void setVertices(const vector<Vector2f> &vertices) = 0;
     virtual list<Edge> getEdges() = 0;
+    virtual list<Vector2f> getDualVertices() = 0;
+    virtual list<Edge> getDualEdges() = 0;
 
 protected:
     PointsAlgorithm() {}

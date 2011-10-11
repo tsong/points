@@ -15,6 +15,11 @@
 #define MIN_TRIANGLE_Y -1000000
 #define MAX_TRIANGLE_Y  1000000
 
+uint hash(uint,uint);
+void unhash(uint,uint&,uint&);
+
+class VoronoiAlgorithm;
+
 //represents a triangle using the ith, jth, and kth vertices
 typedef struct Triangle {
     uint i;
@@ -48,6 +53,10 @@ public:
     void addVertex(Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
+    list<Vector2f> getDualVertices() { return list<Vector2f>(); }
+    list<Edge> getDualEdges() { return list<Edge>(); }
+
+    friend class VoronoiAlgorithm;
 protected:
     //clears all vertices and adds boudning triangle
     void reset();

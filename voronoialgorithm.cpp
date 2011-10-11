@@ -27,6 +27,10 @@ VoronoiAlgorithm::VoronoiAlgorithm() {
 
 }
 
+void VoronoiAlgorithm::reset() {
+    triangulation.reset();
+}
+
 void VoronoiAlgorithm::addVertex(Vector2f v) {
     triangulation.addVertex(v);
 }

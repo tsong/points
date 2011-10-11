@@ -52,6 +52,7 @@ typedef struct Triangle {
 class TriangulationAlgorithm : public PointsAlgorithm {
 public:
     TriangulationAlgorithm();
+    void reset();
     void addVertex(Vector2f v);
     void moveVertex(uint i, Vector2f v);
     void removeVertex(uint i);
@@ -61,10 +62,8 @@ public:
     list<Edge> getDualEdges() { return list<Edge>(); }
 
     friend class VoronoiAlgorithm;
-protected:
-    //clears all vertices and adds boudning triangle
-    void reset();
 
+protected:
     //add triangle to triangulation and update adjacent vertices map
     void addTriangle(Triangle t);
 

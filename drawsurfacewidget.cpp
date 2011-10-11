@@ -88,6 +88,19 @@ void DrawSurfaceWidget::paintGL() {
     }
 }
 
+void DrawSurfaceWidget::clear() {
+    if (pointsAlgorithm) {
+        pointsAlgorithm->reset();
+    }
+
+    vertices.clear();
+    edges.clear();
+    dualVertices.clear();
+    dualEdges.clear();
+    repaint();
+}
+
+
 void DrawSurfaceWidget::updateGraph() {
     if (pointsAlgorithm) {
         edges = pointsAlgorithm->getEdges();

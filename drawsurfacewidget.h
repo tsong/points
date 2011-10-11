@@ -17,6 +17,9 @@ public:
     DrawSurfaceWidget(QWidget *parent = 0);
     ~DrawSurfaceWidget();
 
+public slots:
+    void clear();
+
 protected:
     void updateGraph();
 

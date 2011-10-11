@@ -1,5 +1,9 @@
 #include "convexhullalgorithm.h"
 
+void ConvexHullAlgorithm::reset() {
+    this->vertices.clear();
+}
+
 void ConvexHullAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
 }

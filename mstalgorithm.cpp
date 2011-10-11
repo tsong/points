@@ -2,6 +2,10 @@
 
 #include <queue>
 
+void MSTAlgorithm::reset() {
+    this->vertices.clear();
+}
+
 void MSTAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
 }

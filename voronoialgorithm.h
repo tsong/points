@@ -7,6 +7,7 @@
 class VoronoiAlgorithm : public PointsAlgorithm {
 public:
     VoronoiAlgorithm();
+    void reset();
     void addVertex(Vector2f v);
     void removeVertex(uint i);
     void moveVertex(uint i, Vector2f v);

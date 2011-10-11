@@ -16,6 +16,9 @@ public:
     ~MainWindow();
 
 protected:
+    void createMenus();
+
+protected:
     DrawSurfaceWidget *drawSurfaceWidget;
 };
 

@@ -18,7 +18,7 @@ typedef struct edge {
 class PointsAlgorithm
 {
 public:
-
+    virtual void reset() = 0;
     virtual void addVertex(Vector2f v) = 0;
     virtual void removeVertex(uint i) = 0;
     virtual void moveVertex(uint i, Vector2f v) = 0;

@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenus();
 
     resize(MAIN_WINDOW_DEFAULT_WIDTH, MAIN_WINDOW_DEFAULT_HEIGHT);
+
+    delaunayMode();
 }
 
 MainWindow::~MainWindow()

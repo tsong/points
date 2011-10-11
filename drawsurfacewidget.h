@@ -7,7 +7,7 @@
 #include "vector.h"
 #include "pointsalgorithm.h"
 
-#define VERTEX_RADIUS 5
+#define VERTEX_RADIUS 6
 
 using namespace std;
 

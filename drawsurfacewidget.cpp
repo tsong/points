@@ -2,18 +2,12 @@
 #include "drawsurfacewidget.h"
 #include "glutils.h"
 
-#include "triangulationalgorithm.h"
-#include "voronoialgorithm.h"
-
 #define ABS(x) (x < 0 ? -x : x)
 
 DrawSurfaceWidget::DrawSurfaceWidget(QWidget *parent) :
     QGLWidget(parent), drawVertices(true), drawEdges(true), drawDualVertices(true),
     drawDualEdges(true), pointsAlgorithm(0), selected(false)
 {
-    //pointsAlgorithm = new MSTAlgorithm();
-   // pointsAlgorithm = new TriangulationAlgorithm();
-    pointsAlgorithm = new VoronoiAlgorithm();
 }
 
 DrawSurfaceWidget::~DrawSurfaceWidget() {}
@@ -21,8 +15,6 @@ DrawSurfaceWidget::~DrawSurfaceWidget() {}
 void DrawSurfaceWidget::initializeGL() {
     //set background color to white
     glClearColor(1.0, 1.0, 1.0, 1.0);
-
-    glPointSize(6.0);
 }
 
 void DrawSurfaceWidget::resizeGL(int width, int height) {
@@ -124,7 +116,7 @@ void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
             pointsAlgorithm->removeVertex(selectedIndex);
         }
         selected = false;
-    } else if (!selected) {
+    } else if (!selected && event->button() == Qt::LeftButton) {
         Vector2f v(x,y);
         //add a new vertex and calculate new edges
         vertices.push_back(v);

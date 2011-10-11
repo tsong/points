@@ -7,14 +7,15 @@
 
 using namespace std;
 
-typedef struct edge {
+//represents an edge between point u and point v
+typedef struct Edge {
     Vector2f u;
     Vector2f v;
 
-    edge(const Vector2f a, const Vector2f b) : u(a), v(b) {}
+    Edge(const Vector2f a, const Vector2f b) : u(a), v(b) {}
 } Edge;
 
-//Abstract class defining points algorithms that return an edge list
+//Abstract class defining points algorithms that return edges and vertices
 class PointsAlgorithm
 {
 public:

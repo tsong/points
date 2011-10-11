@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     resize(MAIN_WINDOW_DEFAULT_WIDTH, MAIN_WINDOW_DEFAULT_HEIGHT);
 
-    delaunayMode();
+    noneMode();
 }
 
 MainWindow::~MainWindow()
@@ -36,21 +36,32 @@ void MainWindow::createMenus() {
     editMenu->addAction(clearAction);
 
     //mode menu
-    QMenu *modeMenu = menuBar()->addMenu("&Mode");
+    QMenu *modeMenu = menuBar()->addMenu("&Algorithm");
+    QAction *noneAction = new QAction("&None", this);
     QAction *mstAction = new QAction("&Minimum Spanning Tree", this);
     QAction *delaunayAction = new QAction("Delaunay &Triangulation", this);
     QAction *voronoiAction = new QAction("&Voronoi Diagram", this);
     QAction *delaunayVoronoiAction = new QAction("&Delaunay/Voronoi", this);
 
+    connect(noneAction, SIGNAL(triggered()), this, SLOT(noneMode()));
     connect(mstAction, SIGNAL(triggered()), this, SLOT(mstMode()));
     connect(delaunayAction, SIGNAL(triggered()), this, SLOT(delaunayMode()));
     connect(voronoiAction, SIGNAL(triggered()), this, SLOT(voronoiMode()));
     connect(delaunayVoronoiAction, SIGNAL(triggered()), this, SLOT(delaunayVoronoiMode()));
 
+    modeMenu->addAction(noneAction);
     modeMenu->addAction(mstAction);
     modeMenu->addAction(delaunayAction);
     modeMenu->addAction(voronoiAction);
     modeMenu->addAction(delaunayVoronoiAction);
+}
+
+void MainWindow::noneMode() {
+    drawSurfaceWidget->changeAlgorithm(0);
+    drawSurfaceWidget->toggleVertices(true);
+    drawSurfaceWidget->toggleEdges(false);
+    drawSurfaceWidget->toggleDualEdges(false);
+    drawSurfaceWidget->toggleDualVertices(false);
 }
 
 void MainWindow::mstMode() {
@@ -84,4 +95,5 @@ void MainWindow::delaunayVoronoiMode() {
     drawSurfaceWidget->toggleDualEdges(true);
     drawSurfaceWidget->toggleDualVertices(true);
 }
+
 

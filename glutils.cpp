@@ -1,7 +1,6 @@
 #include "glutils.h"
 #include "vector.h"
 
-//draws a circle at (x,y) with radius r using OpenGL
 void glDrawCircle(float x, float y, float r) {
     //translate to x,y
     glPushMatrix();

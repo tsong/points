@@ -30,13 +30,13 @@ void DrawSurfaceWidget::resizeGL(int width, int height) {
 }
 
 void DrawSurfaceWidget::paintGL() {
+    //clear
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    glColor3f(0,0,0);
-
     //draw vertices
     if (drawVertices) {
+        glColor3f(0,0,0);
         for (uint i = 0; i < vertices.size(); i++) {
             Vector2f v = vertices[i];
             if (selected && selectedIndex == i) {
@@ -93,6 +93,10 @@ void DrawSurfaceWidget::updateGraph() {
         edges = pointsAlgorithm->getEdges();
         dualVertices = pointsAlgorithm->getDualVertices();
         dualEdges = pointsAlgorithm->getDualEdges();
+    } else {
+        edges.clear();
+        dualVertices.clear();
+        dualEdges.clear();
     }
 }
 
@@ -100,6 +104,7 @@ void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
     float x = (float)event->x();
     float y = (float)event->y();
 
+    //iterate through vertices and see if point clicked is inside a vertex
     selected = false;
     for (uint i = 0; i < vertices.size(); i++) {
         Vector2f v = vertices[i];
@@ -111,14 +116,15 @@ void DrawSurfaceWidget::mousePressEvent(QMouseEvent *event) {
     }
 
     if (selected && event->button() == Qt::RightButton) {
+        //remove vertex if right mouse button is clicked
         vertices.erase(vertices.begin() + selectedIndex);
         if (pointsAlgorithm) {
             pointsAlgorithm->removeVertex(selectedIndex);
         }
         selected = false;
     } else if (!selected && event->button() == Qt::LeftButton) {
-        Vector2f v(x,y);
         //add a new vertex and calculate new edges
+        Vector2f v(x,y);
         vertices.push_back(v);
         if (pointsAlgorithm) {
             pointsAlgorithm->addVertex(v);
@@ -161,10 +167,13 @@ void DrawSurfaceWidget::clear() {
     repaint();
 }
 
-//SLOTS
+/*SLOTS*/
 void DrawSurfaceWidget::changeAlgorithm(PointsAlgorithm *algorithm) {
     this->pointsAlgorithm = algorithm;
-    this->pointsAlgorithm->setVertices(vertices);
+    if (this->pointsAlgorithm) {
+        this->pointsAlgorithm->setVertices(vertices);
+    }
+
     updateGraph();
     repaint();
 }

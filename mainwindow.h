@@ -19,6 +19,8 @@ public:
     ~MainWindow();
 
 public slots:
+    /*Changes the mode of the draw surface */
+    void noneMode();
     void mstMode();
     void delaunayMode();
     void voronoiMode();
@@ -29,7 +31,10 @@ protected:
     void createMenus();
 
 protected:
+    //surface which users interact with and draw the points
     DrawSurfaceWidget *drawSurfaceWidget;
+
+    /*Points algorithms*/
     MSTAlgorithm mstAlgorithm;
     TriangulationAlgorithm triangulationAlgorithm;
     VoronoiAlgorithm voronoiAlgorithm;

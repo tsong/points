@@ -4,6 +4,8 @@
 #include "vector.h"
 #include <QDebug>
 
+//A row vector of MxN matrix which handles assignment operations
+//This is different than the column vector class <Vector>
 template<typename T, uint N>
 class RowVector {
 public:
@@ -54,27 +56,8 @@ public:
         double result = 0;
         for (uint j = 0; j < N; j++) {
             int sign = j % 2 == 0 ? 1 : -1;
-
-            /*Matrix<T,M-1,N-1> C = cofactor(0,j);
-
-            qDebug() << "SUB:" << M-1 << N-1 << j;
-            for (uint k = 0; k < M-1; k++) {
-                QString line = "";
-                for (uint l = 0; l < N-1; l++)
-                    line += QString("%1 ").arg(C[k][l]);
-                qDebug() << line;
-            }*/
             result += sign * data[0][j] * cofactor(0,j).det();
         }
-
-        /*qDebug() << "MAT:" << M << N;
-        for (uint k = 0; k < M; k++) {
-            QString line = "";
-            for (uint l = 0; l < N; l++)
-                line += QString("%1 ").arg(data[k][l]);
-            qDebug() << line;
-        }
-        qDebug() << "DET: " << result;*/
 
         return result;
     }
@@ -133,6 +116,7 @@ public:
     RowVector<T,0> operator[](uint) { return RowVector<T,0>(); }
 };
 
+//typedefs for convenience
 typedef Matrix<int, 3, 3> Matrix3i;
 typedef Matrix<float, 3, 3> Matrix3f;
 typedef Matrix<double, 3, 3> Matrix3d;

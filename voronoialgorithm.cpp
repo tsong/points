@@ -31,6 +31,14 @@ void VoronoiAlgorithm::addVertex(Vector2f v) {
     triangulation.addVertex(v);
 }
 
+void VoronoiAlgorithm::removeVertex(uint i) {
+    triangulation.removeVertex(i);
+}
+
+void VoronoiAlgorithm::moveVertex(uint i, Vector2f v) {
+    triangulation.moveVertex(i,v);
+}
+
 void VoronoiAlgorithm::setVertices(const vector<Vector2f> &vertices) {
     triangulation.setVertices(vertices);
 }

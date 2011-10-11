@@ -7,6 +7,8 @@
 #include "vector.h"
 #include "mstalgorithm.h"
 
+#define VERTEX_RADIUS 5
+
 using namespace std;
 
 class DrawSurfaceWidget : public QGLWidget {
@@ -16,12 +18,16 @@ public:
     ~DrawSurfaceWidget();
 
 protected:
+    void updateGraph();
+
     /*OpenGL methods*/
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
 
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *);
 
 protected:
     vector<Vector2f> vertices;
@@ -31,6 +37,9 @@ protected:
     list<Edge> dualEdges;
 
     PointsAlgorithm *pointsAlgorithm;
+
+    bool selected;
+    uint selectedIndex;
 };
 
 #endif // DRAWSURFACEWIDGET_H

@@ -8,6 +8,8 @@ class ConvexHullAlgorithm : public PointsAlgorithm
 {
 public:
     void addVertex(Vector2f v);
+    void addVertex(uint i);
+    void moveVertex(uint i, Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
 

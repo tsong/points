@@ -4,6 +4,14 @@ void ConvexHullAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
 }
 
+void ConvexHullAlgorithm::addVertex(uint i) {
+    this->vertices.erase(vertices.begin() + i);
+}
+
+void ConvexHullAlgorithm::moveVertex(uint i, Vector2f v) {
+    this->vertices[i] = v;
+}
+
 void ConvexHullAlgorithm::setVertices(const vector<Vector2f> &vertices) {
     this->vertices = vertices;
 }

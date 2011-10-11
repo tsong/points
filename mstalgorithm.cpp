@@ -6,6 +6,14 @@ void MSTAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
 }
 
+void MSTAlgorithm::moveVertex(uint i, Vector2f v) {
+    this->vertices[i] = v;
+}
+
+void MSTAlgorithm::removeVertex(uint i) {
+    this->vertices.erase(vertices.begin() + i);
+}
+
 void MSTAlgorithm::setVertices(const vector<Vector2f> &vertices) {
     this->vertices = vertices;
 }

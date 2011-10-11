@@ -6,6 +6,8 @@
 class MSTAlgorithm : public PointsAlgorithm {
 public:
     void addVertex(Vector2f v);
+    void removeVertex(uint i);
+    void moveVertex(uint i, Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
     list<Vector2f> getDualVertices() { return list<Vector2f>(); }

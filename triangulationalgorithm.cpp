@@ -182,6 +182,22 @@ TriangulationAlgorithm::TriangulationAlgorithm() {
     this->reset();
 }
 
+void TriangulationAlgorithm::moveVertex(uint i, Vector2f v) {
+    vector<Vector2f>::iterator start = vertices.begin();
+    vertices.erase(start,start+3);
+    vertices[i] = v;
+    vector<Vector2f> tmp = this->vertices;
+    setVertices(tmp);
+}
+
+void TriangulationAlgorithm::removeVertex(uint i) {
+    vector<Vector2f>::iterator start = vertices.begin();
+    vertices.erase(start,start+3);
+    this->vertices.erase(start + i);
+    vector<Vector2f> tmp = this->vertices;
+    setVertices(tmp);
+}
+
 void TriangulationAlgorithm::addVertex(Vector2f v) {
     this->vertices.push_back(v);
     Triangle t;

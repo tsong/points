@@ -130,7 +130,7 @@ template <typename T>
 class Matrix <T,0,0> {
 public:
     double det() { return 0; }
-    RowVector<T,0> operator[](uint i) { return RowVector<T,0>(); }
+    RowVector<T,0> operator[](uint) { return RowVector<T,0>(); }
 };
 
 typedef Matrix<int, 3, 3> Matrix3i;

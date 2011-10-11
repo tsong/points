@@ -53,6 +53,8 @@ class TriangulationAlgorithm : public PointsAlgorithm {
 public:
     TriangulationAlgorithm();
     void addVertex(Vector2f v);
+    void moveVertex(uint i, Vector2f v);
+    void removeVertex(uint i);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
     list<Vector2f> getDualVertices() { return list<Vector2f>(); }

@@ -26,8 +26,11 @@ protected:
 protected:
     vector<Vector2f> vertices;
     list<Edge> edges;
-    PointsAlgorithm *pointsAlgorithm;
 
+    list<Vector2f> dualVertices;
+    list<Edge> dualEdges;
+
+    PointsAlgorithm *pointsAlgorithm;
 };
 
 #endif // DRAWSURFACEWIDGET_H

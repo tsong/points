@@ -163,7 +163,7 @@ void TriangulationAlgorithm::flip(uint a, uint b) {
     Vector2f d2 = vertices[verts.second] - vertices[a];
 
     if (inCircle(vertices[a],vertices[b],vertices[c],vertices[d])) {
-        //flip ab to pd
+        //flip ab to cd
         removeTriangle(Triangle(a,b,c));
         removeTriangle(Triangle(a,b,d));
         addTriangle(Triangle(c,a,d));
@@ -172,6 +172,8 @@ void TriangulationAlgorithm::flip(uint a, uint b) {
         //test new edges that are formed
         flip(a,d);
         flip(b,d);
+        flip(a,c);
+        flip(b,c);
     }
 
 }

@@ -17,6 +17,8 @@
 
 uint hash(uint,uint);
 void unhash(uint,uint&,uint&);
+bool inTriangle(Vector2f, Vector2f, Vector2f, Vector2f);
+int pointLineTest (Vector2f, Vector2f, Vector2f);
 
 class VoronoiAlgorithm;
 

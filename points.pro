@@ -16,7 +16,8 @@ SOURCES += main.cpp\
     mstalgorithm.cpp \
     convexhullalgorithm.cpp \
     triangulationalgorithm.cpp \
-    voronoialgorithm.cpp
+    voronoialgorithm.cpp \
+    glutils.cpp
 
 HEADERS  += mainwindow.h \
     drawsurfacewidget.h \

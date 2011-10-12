@@ -3,6 +3,7 @@
 
 #include "pointsalgorithm.h"
 #include "matrix.h"
+#include "pointsutil.h"
 
 #include <map>
 #include <set>
@@ -14,12 +15,6 @@
 #define MAX_TRIANGLE_X  1000000
 #define MIN_TRIANGLE_Y -1000000
 #define MAX_TRIANGLE_Y  1000000
-
-//utility functions
-uint hash(uint,uint);
-void unhash(uint,uint&,uint&);
-bool inTriangle(Vector2f, Vector2f, Vector2f, Vector2f);
-int pointLineTest (Vector2f, Vector2f, Vector2f);
 
 class VoronoiAlgorithm;
 

@@ -8,6 +8,7 @@
 
 #include "drawsurfacewidget.h"
 #include "mstalgorithm.h"
+#include "convexhullalgorithm.h"
 #include "triangulationalgorithm.h"
 #include "voronoialgorithm.h"
 
@@ -22,6 +23,7 @@ public slots:
     /*Changes the mode of the draw surface */
     void noneMode();
     void mstMode();
+    void convexHullMode();
     void delaunayMode();
     void voronoiMode();
     void delaunayVoronoiMode();
@@ -36,6 +38,7 @@ protected:
 
     /*Points algorithms*/
     MSTAlgorithm mstAlgorithm;
+    ConvexHullAlgorithm convexHullAlgorithm;
     TriangulationAlgorithm triangulationAlgorithm;
     VoronoiAlgorithm voronoiAlgorithm;
 };

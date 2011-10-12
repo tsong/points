@@ -150,6 +150,11 @@ public:
         return true;
     }
 
+    //vector not equals
+    bool operator!=(const Vector<T,N> &v) const {
+        return !operator==(v);
+    }
+
     T& operator[](uint i) {
         return this->data[i];
     }

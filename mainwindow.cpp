@@ -39,18 +39,21 @@ void MainWindow::createMenus() {
     QMenu *modeMenu = menuBar()->addMenu("&Algorithm");
     QAction *noneAction = new QAction("&None", this);
     QAction *mstAction = new QAction("&Minimum Spanning Tree", this);
+    QAction *convexHullAction = new QAction("&Convex Hull", this);
     QAction *delaunayAction = new QAction("Delaunay &Triangulation", this);
     QAction *voronoiAction = new QAction("&Voronoi Diagram", this);
     QAction *delaunayVoronoiAction = new QAction("&Delaunay/Voronoi", this);
 
     connect(noneAction, SIGNAL(triggered()), this, SLOT(noneMode()));
     connect(mstAction, SIGNAL(triggered()), this, SLOT(mstMode()));
+    connect(convexHullAction, SIGNAL(triggered()), this, SLOT(convexHullMode()));
     connect(delaunayAction, SIGNAL(triggered()), this, SLOT(delaunayMode()));
     connect(voronoiAction, SIGNAL(triggered()), this, SLOT(voronoiMode()));
     connect(delaunayVoronoiAction, SIGNAL(triggered()), this, SLOT(delaunayVoronoiMode()));
 
     modeMenu->addAction(noneAction);
     modeMenu->addAction(mstAction);
+    modeMenu->addAction(convexHullAction);
     modeMenu->addAction(delaunayAction);
     modeMenu->addAction(voronoiAction);
     modeMenu->addAction(delaunayVoronoiAction);
@@ -66,6 +69,14 @@ void MainWindow::noneMode() {
 
 void MainWindow::mstMode() {
     drawSurfaceWidget->changeAlgorithm(&mstAlgorithm);
+    drawSurfaceWidget->toggleVertices(true);
+    drawSurfaceWidget->toggleEdges(true);
+    drawSurfaceWidget->toggleDualEdges(false);
+    drawSurfaceWidget->toggleDualVertices(false);
+}
+
+void MainWindow::convexHullMode() {
+    drawSurfaceWidget->changeAlgorithm(&convexHullAlgorithm);
     drawSurfaceWidget->toggleVertices(true);
     drawSurfaceWidget->toggleEdges(true);
     drawSurfaceWidget->toggleDualEdges(false);

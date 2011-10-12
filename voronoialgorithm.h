@@ -3,6 +3,7 @@
 
 #include "pointsalgorithm.h"
 #include "triangulationalgorithm.h"
+#include "pointsutil.h"
 
 class VoronoiAlgorithm : public PointsAlgorithm {
 public:

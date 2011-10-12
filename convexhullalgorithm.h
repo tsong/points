@@ -11,15 +11,18 @@ public:
     void reset();
     void addVertex(Vector2f v);
     void addVertex(uint i);
+    void removeVertex(uint i);
     void moveVertex(uint i, Vector2f v);
     void setVertices(const vector<Vector2f> &vertices);
     list<Edge> getEdges();
+    list<Vector2f> getDualVertices() { return list<Vector2f>(); }
+    list<Edge> getDualEdges() { return list<Edge>(); }
 
 protected:
     vector<Vector2f> vertices;
 };
 
-/*STL comparator evaluating polar angle from starting vertex
+//STL comparator evaluating polar angle from starting vertex
 class ConvexHullCompare {
 public:
     ConvexHullCompare(const Vector2f &start)
@@ -35,6 +38,6 @@ public:
     }
 private:
     const Vector2f &start;
-};*/
+};
 
 #endif // CONVEXHULLALGORITHM_H

@@ -5,6 +5,7 @@
 
 typedef unsigned int uint;
 
+//represents a vector of size N consisting of elements of type T
 template <typename T, uint N>
 class Vector {
 public:
@@ -38,11 +39,13 @@ public:
         if (N >= 4) data[3] = w;
     }
 
+    //clears all elements to 0
     void zero() {
         for (uint i = 0; i < N; i++)
             this->data[i] = 0;
     }
 
+    //returns the magnitude (length) of the vector
     double magnitude() const {
         T sum = 0;
         for (uint i = 0; i < N; i++) {
@@ -52,6 +55,7 @@ public:
         return sqrt(sum);
     }
 
+    //returns the unit vector of this vector
     Vector<T,N> unit() {
         Vector<T,N> result;
         double mag = magnitude();
@@ -61,6 +65,7 @@ public:
         return result;
     }
 
+    //returns the dot product with another vector
     T dot(const Vector<T,N> &v) const {
         T result = 0;
         for (uint i = 0; i < N; i++) {
@@ -70,6 +75,7 @@ public:
         return result;
     }
 
+    //returns the cross product with another vector
     Vector<T,N> cross(const Vector<T,N> &v) const {
         Vector<T,N> c;
         const T (&a)[N] = data;
@@ -95,6 +101,7 @@ public:
         return c;
     }
 
+    //vector subtraction
     Vector<T,N> operator-(const Vector<T,N> &v) const {
         Vector<T,N> result;
         for (uint i = 0; i < N; i++)
@@ -102,6 +109,7 @@ public:
         return result;
     }
 
+    //vector addition
     Vector<T,N> operator+(const Vector<T,N> &v) const {
         Vector<T,N> result;
         for (uint i = 0; i < N; i++)
@@ -109,6 +117,7 @@ public:
         return result;
     }
 
+    //vector scalar multiplication
     Vector<T,N> operator*(T scalar) {
         Vector<T,N> result;
         for (uint i = 0; i < N; i++)
@@ -116,6 +125,7 @@ public:
         return result;
     }
 
+    //vector scalar division
     Vector<T,N> operator/(T scalar) {
         Vector<T,N> result;
         for (uint i = 0; i < N; i++)
@@ -123,6 +133,7 @@ public:
         return result;
     }
 
+    //vector assignment
     Vector<T,N>& operator=(const Vector<T,N> &v) {
         if (this != &v) {
             for (uint i = 0; i < N; i++)
@@ -131,6 +142,7 @@ public:
         return *this;
     }
 
+    //vector element-wise comparison
     bool operator==(const Vector<T,N> &v) const {
         for (uint i = 0; i < N; i++)
             if (data[i] != v.data[i])
@@ -146,7 +158,7 @@ protected:
     T data[N];
 };
 
-
+//typedefs for convenience
 typedef Vector<int, 2> Vector2i;
 typedef Vector<float, 2> Vector2f;
 typedef Vector<double, 2> Vector2d;

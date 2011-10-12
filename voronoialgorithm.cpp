@@ -52,6 +52,7 @@ list<Edge> VoronoiAlgorithm::getEdges() {
 }
 
 list<Vector2f> VoronoiAlgorithm::getDualVertices() {
+    //get data from the Delaunay triangulation
     list<Triangle> triangles = triangulation.triangles;
     vector<Vector2f> vertices = triangulation.vertices;
     list<Vector2f> dualVertices;
@@ -61,7 +62,6 @@ list<Vector2f> VoronoiAlgorithm::getDualVertices() {
 
         //add the circumcenter of triangles that do not include the bounding vertices
         if (t.i >= 3 && t.j >= 3 && t.k >= 3) {
-            //qDebug() << t.i << t.j << t.k;
             dualVertices.push_back(circumcenter(vertices[t.i], vertices[t.j], vertices[t.k]));
         }
     }
@@ -71,8 +71,9 @@ list<Vector2f> VoronoiAlgorithm::getDualVertices() {
 
 list<Edge> VoronoiAlgorithm::getDualEdges() {
     list<Edge> edges;
-
     vector<Vector2f> vertices = triangulation.vertices;
+
+    //slower algorithm comparing all pairs of triangles, which runs in O(n^2) in the number of triangles
     /*list<Triangle> triangles = triangulation.triangles;
     for (list<Triangle>::iterator it1 = triangles.begin(); it1 != triangles.end(); it1++) {
         for (list<Triangle>::iterator it2 = triangles.begin(); it2 != triangles.end(); it2++) {
@@ -91,9 +92,11 @@ list<Edge> VoronoiAlgorithm::getDualEdges() {
         }
     }*/
 
-
+    //faster algorithm looking only at edges, which runs in O(n) in the number of triangles
+    //get the adjacent vertices map so we can iterate through all the edges
     map< uint, pair<int, int> > adjVertices = triangulation.adjVertices;
     for (map< uint, pair<int,int> >::iterator it = adjVertices.begin(); it != adjVertices.end(); it++) {
+        //unhash to get edge uv
         uint hash = (*it).first;
         uint u,v;
         unhash(hash,u,v);
@@ -105,15 +108,6 @@ list<Edge> VoronoiAlgorithm::getDualEdges() {
             Vector2f c2 = circumcenter(vertices[u], vertices[v], vertices[adj.second]);
             edges.push_back(Edge(c1,c2));
 
-        } else if (adj.first >= 3 || adj.second >= 3) {
-            //border circumcenter should have an infinitely long
-            //perpendicular edge to the border edge in the Delaunay triangulation
-            uint idx = adj.first >= 3 ? adj.first : adj.second;
-            Vector2f center = circumcenter(vertices[u], vertices[v], vertices[idx]);
-            Vector2f edgeMid = (vertices[u] + vertices[v]) / 2;
-            //Vector2f d = pointLineTest(vertices[u],vertices[v],vertices[idx]) > 1 ? edgeMid-center : center-edgeMid;
-            Vector2f end = (edgeMid-center).unit()*INFINITE_SCALAR + center;
-            //edges.push_back(Edge(center, end));
         }
     }
 

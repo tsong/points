@@ -31,6 +31,7 @@ protected:
     T *data;
 };
 
+//represents an MxN matrix of type T
 template <typename T, uint M, uint N>
 class Matrix {
 public:
@@ -42,12 +43,15 @@ public:
         this->operator=(mat);
     }
 
+    //clears all elements to 0
     void zero() {
         for (uint i = 0; i < M; i++)
             for (uint j = 0; j < N; j++)
                 this->data[i][j] = 0;
     }
 
+    //returns the determinant of the matrix
+    //returns 0 if the matrix is not square
     double det() {
         if (M != N) return 0;
         if (N == 1) return data[0][0];
@@ -62,6 +66,7 @@ public:
         return result;
     }
 
+    //returns the cofactor matrix, which is used in determinant calculation
     Matrix<T,M-1,N-1> cofactor(uint row, uint column) {
         Matrix<T,M-1,N-1> C;
 
@@ -81,6 +86,7 @@ public:
         return C;
     }
 
+    //matrix addition
     Matrix<T,M,N> operator+(const Matrix<T,M,N>& mat) const {
         Matrix<T,M,N> result = mat;
         for (uint i = 0; i < M; i++)
@@ -89,6 +95,7 @@ public:
         return result;
     }
 
+    //matrix assignment
     Matrix<T,N,M>& operator=(const Matrix<T,M,N>& mat) {
         if (this != &mat) {
             for (uint i = 0; i < M; i++)
@@ -99,6 +106,7 @@ public:
         return *this;
     }
 
+    //returns the ith row vector of the matrix
     RowVector<T,N> operator[](uint i) {
         RowVector<T,N> rowVector((T*)data + i*M);
         return rowVector;

@@ -4,6 +4,7 @@
 #include "pointsalgorithm.h"
 #include "vector.h"
 
+//TODO
 class ConvexHullAlgorithm : public PointsAlgorithm
 {
 public:

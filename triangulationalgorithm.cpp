@@ -33,15 +33,6 @@ bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
 
 //returns true if vertex d is in triangle abc
 bool inTriangle(Vector2f a, Vector2f b, Vector2f c, Vector2f d) {
-    /*qDebug() << "Triangles";
-    qDebug() << QString("(%1,%2)").arg(a[0]).arg(a[1]);
-    qDebug() << QString("(%1,%2)").arg(b[0]).arg(b[1]);
-    qDebug() << QString("(%1,%2)").arg(c[0]).arg(c[1]);
-    qDebug() << "Point: " << QString("(%1,%2)").arg(d[0]).arg(d[1]);
-    qDebug() << "TEST 1:" << pointLineTest(a,b,d) << -pointLineTest(a,c,d);
-    qDebug() << "TEST 2:" << pointLineTest(b,c,d) << -pointLineTest(b,a,d);
-    qDebug() << "TEST 3:" << pointLineTest(c,b,d) << -pointLineTest(c,a,d);*/
-
     return pointLineTest(a,b,d) == -pointLineTest(a,c,d)
            && pointLineTest(b,c,d) == -pointLineTest(b,a,d)
            && pointLineTest(c,b,d) == -pointLineTest(c,a,d);
@@ -78,7 +69,6 @@ void TriangulationAlgorithm::reset() {
 
 void TriangulationAlgorithm::addTriangle(Triangle t) {
     triangles.push_back(t);
-    //qDebug() << "ADDING" << t.i << t.j << t.k;
 
     //add all edges to adjacent vertices map
     uint T[3] = {t.i, t.j, t.k};
@@ -89,7 +79,6 @@ void TriangulationAlgorithm::addTriangle(Triangle t) {
 
             //add pair to map if entry does not already exist
             if (adjVertices.find(h) == adjVertices.end()) {
-                //qDebug() << "    Create Mapping:" << T[i] << T[j];
                 adjVertices[h] = pair<int,int>(-1,-1);
             }
             pair<int,int> verts = adjVertices[h];
@@ -100,17 +89,13 @@ void TriangulationAlgorithm::addTriangle(Triangle t) {
                 verts.second = other;
 
             adjVertices[h] = verts;
-            //qDebug() << "        Altering Mapping" << T[i] << T[j] << "|" << verts.first << verts.second << "h:" << h;
         }
     }
 }
 
 void TriangulationAlgorithm::removeTriangle(Triangle t) {
-   // qDebug() << "REMOVING:" << t.i << t.j << t.k;
     //remove triangles from list
     for (list<Triangle>::iterator it = triangles.begin(); it != triangles.end(); it++) {
-        //Triangle tt = *it;
-        //qDebug() << "testing:" << tt.i << tt.j << tt.k;
         if (t == *it) {
             triangles.erase(it);
             break;
@@ -121,7 +106,6 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
     uint T[3] = {t.i, t.j, t.k};
     for (uint i = 0; i < 3; i++) {
         for (uint j = i+1; j < 3; j++) {
-            //qDebug() << "    Erase Mapping:" << T[i] << T[j];
             uint h = hash(T[i],T[j]);
             uint other = t.i + t.j + t.k - (T[i] + T[j]);    //adjacent vertex is the unused index
 
@@ -142,9 +126,9 @@ void TriangulationAlgorithm::removeTriangle(Triangle t) {
 }
 
 void TriangulationAlgorithm::flip(uint a, uint b) {
+    //get the two adjacent vertices of edge ab
     pair<int,int> verts = adjVertices[hash(a,b)];
 
-    //qDebug() << "    FLIP" << a << b << "|" << verts.first << verts.second;
     //if edge ab is exterior facing, then we don't need to flip
     if (verts.first < 0 || verts.second < 0) return;
 
@@ -159,11 +143,8 @@ void TriangulationAlgorithm::flip(uint a, uint b) {
         d = verts.first;
     }
 
-    Vector2f d1 = vertices[verts.first] - vertices[a];
-    Vector2f d2 = vertices[verts.second] - vertices[a];
-
     if (inCircle(vertices[a],vertices[b],vertices[c],vertices[d])) {
-        //flip ab to cd
+        //flip ab to cd if current triangulation violates circle test
         removeTriangle(Triangle(a,b,c));
         removeTriangle(Triangle(a,b,d));
         addTriangle(Triangle(c,a,d));
@@ -183,16 +164,22 @@ TriangulationAlgorithm::TriangulationAlgorithm() {
 }
 
 void TriangulationAlgorithm::moveVertex(uint i, Vector2f v) {
+    //remove bounding vertices
     vector<Vector2f>::iterator start = vertices.begin();
     vertices.erase(start,start+3);
+
+    //move and reapply vertices
     vertices[i] = v;
     vector<Vector2f> tmp = this->vertices;
     setVertices(tmp);
 }
 
 void TriangulationAlgorithm::removeVertex(uint i) {
+    //remove bounding vertices
     vector<Vector2f>::iterator start = vertices.begin();
     vertices.erase(start,start+3);
+
+    //remove and reapply vertices
     this->vertices.erase(start + i);
     vector<Vector2f> tmp = this->vertices;
     setVertices(tmp);
@@ -206,7 +193,6 @@ void TriangulationAlgorithm::addVertex(Vector2f v) {
     //find containing triangle
     for (list<Triangle>::iterator it = triangles.begin(); it != triangles.end(); it++) {
         t = *it;
-        //qDebug() << "T:" << t.i << t.j << t.k;
         if (inTriangle(vertices[t.i], vertices[t.j], vertices[t.k], v)) {
             found = true;
             break;
@@ -243,22 +229,19 @@ void TriangulationAlgorithm::setVertices(const vector<Vector2f> &vertices) {
 list<Edge> TriangulationAlgorithm::getEdges() {
     list<Edge> edges;
 
+    //all the edges of the triangulation are stored in our map
     for (map< uint, pair<int, int> >::iterator it = adjVertices.begin();
         it != adjVertices.end();
         it++)
     {
+        //unhash to get edge uv
         uint h = (*it).first;
-        //qDebug() << "        HASH:" << h;
         uint u,v;
         unhash(h,u,v);
 
         //don't add bounding triangle edges
         if (u >= 3 && v >= 3)
             edges.push_back(Edge(vertices[u],vertices[v]));
-
-        //Vector2f v1 = vertices[u];
-        //Vector2f v2 = vertices[v];
-        //qDebug() << "    EDGE:" << QString("(%1,%2) = ").arg(u).arg(v) << QString("(%1,%2) to (%3,%4)").arg(v1[0]).arg(v1[1]).arg(v2[0]).arg(v2[1]);
     }
 
     return edges;

@@ -15,6 +15,7 @@
 #define MIN_TRIANGLE_Y -1000000
 #define MAX_TRIANGLE_Y  1000000
 
+//utility functions
 uint hash(uint,uint);
 void unhash(uint,uint&,uint&);
 bool inTriangle(Vector2f, Vector2f, Vector2f, Vector2f);
@@ -36,6 +37,7 @@ typedef struct Triangle {
         k = c;
     }
 
+    //comparison that treats permutation of the vertices of the triangle as the same
     bool operator==(Triangle &t) {
         set<uint> indices;
         indices.insert(t.i);
@@ -43,7 +45,6 @@ typedef struct Triangle {
         indices.insert(t.k);
 
         set<uint>::iterator fail = indices.end();
-        //qDebug() << "COMP:" << (indices.find(i) != fail && indices.find(j) != fail && indices.find(k) != fail);
         return indices.find(i) != fail && indices.find(j) != fail && indices.find(k) != fail;
     }
 } Triangle;

@@ -1,7 +1,7 @@
 #ifndef GLUTILS_H
 #define GLUTILS_H
 
-#include <GL/gl.h>
+#include <QGLWidget>
 
 #define PRECISION 360
 #define PI 3.14159265

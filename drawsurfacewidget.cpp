@@ -15,6 +15,14 @@ DrawSurfaceWidget::~DrawSurfaceWidget() {}
 void DrawSurfaceWidget::initializeGL() {
     //set background color to white
     glClearColor(1.0, 1.0, 1.0, 1.0);
+
+    //nice looking anti-aliased lines
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glLineWidth(0.75);
 }
 
 void DrawSurfaceWidget::resizeGL(int width, int height) {

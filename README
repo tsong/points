@@ -1,0 +1,37 @@
+===============================================================================
+                                    POINTS
+===============================================================================
+
+===================
+      Author
+===================
+Tim Song
+timsong@uvic.ca
+
+===================
+     Overview
+===================
+
+This program demos several computational geometry algorithms:
+-Euclidean Minimum Spanning Trees
+-Convex Hulls
+-Delaunay Triangulations
+-Voronoi Diagrams
+
+===================
+      Usage
+===================
+
+Left click on the canvas to add a new vertex.
+Left click and drag a vertex to move it.
+Right click on a vertex to delete it.
+The different algorithms can be accessed using the "Algorithms" menu.
+The canvas can be cleared using the "Clear" menu item under "Edit".
+
+===================
+     Build
+===================
+This program was built using Qt 4.7.0. After installing the framework, run
+> qmake
+> make
+to build the program.

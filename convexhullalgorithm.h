@@ -4,7 +4,6 @@
 #include "pointsalgorithm.h"
 #include "vector.h"
 
-//TODO
 class ConvexHullAlgorithm : public PointsAlgorithm
 {
 public:
@@ -30,7 +29,11 @@ public:
     {
     }
 
+    //return true if v1 has a lower polar angle than v2 relative to start vector
     bool operator() (const Vector2f& v1, const Vector2f& v2) const {
+        if (v1 == start) return true;
+        if (v2 == start) return false;
+
         Vector<float,2> d1 = v1 - start;
         Vector<float,2> d2 = v2 - start;
 

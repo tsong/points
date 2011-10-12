@@ -5,10 +5,10 @@
 #include "vector.h"
 
 //utility functions for points
-uint hash(uint,uint);
-void unhash(uint,uint&,uint&);
-bool inCircle(Vector2f, Vector2f, Vector2f, Vector2f);
-bool inTriangle(Vector2f, Vector2f, Vector2f, Vector2f);
-int pointLineTest (Vector2f, Vector2f, Vector2f);
+uint hash(uint i, uint j);
+void unhash(uint h, uint &u, uint &v);
+bool inCircle(Vector2f a, Vector2f b, Vector2f c, Vector2f d);
+bool inTriangle(Vector2f a, Vector2f b, Vector2f c, Vector2f d);
+int pointLineTest (Vector2f a, Vector2f b, Vector2f p);
 
 #endif // POINTSUTIL_H

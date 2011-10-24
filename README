@@ -5,7 +5,6 @@
 ===================
       Author
 ===================
-
 Tim Song
 timsong@uvic.ca
 
@@ -32,7 +31,6 @@ The canvas can be cleared using the "Clear" menu item under "Edit".
 ===================
      Build
 ===================
-
 This program was built using Qt 4.7.0. After installing the framework, run
 > qmake
 > make
